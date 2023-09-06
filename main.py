@@ -40,6 +40,7 @@ def wrong_msg(message):
         btn3 = types.KeyboardButton(text=days[2])
         btn4 = types.KeyboardButton(text=days[3])
         btn5 = types.KeyboardButton(text=days[4])
+        btn6 = types.KeyboardButton(text="")
         kb_2.add(btn1, btn2, btn3, btn4, btn5)
 
         if message.text == "📚Розклад занять":
@@ -80,4 +81,4 @@ def wrong_msg(message):
 def media_error(message):
     bot.send_message(message.chat.id, "<b>😡Не потрібно засмічувати цей чат😡</b>", parse_mode='HTML')
 
-bot.polling()
+bot.infinity_polling()
