@@ -82,8 +82,7 @@ def wrong_msg(message, mode=1):
             if message.text == "📚Розклад занять":
                 bot.send_message(message.chat.id, '<b>Виберіть потрібний день в меню внизу!👇!</b>', reply_markup=kb_2, parse_mode='HTML')
         auth()
-    else:
-        return auth()
+
 
 #перевірка на медіа файли
 @bot.message_handler(content_types=['photo', 'video', 'document', 'animation', 'sticker'])
