@@ -1,30 +1,21 @@
-from bs4 import BeautifulSoup
-import requests
+from selenium import webdriver
 
-headers = {
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
-    'Accept-Language': 'ru-RU,ru;q=0.8',
-    'Cache-Control': 'no-cache',
-    'Connection': 'keep-alive',
-    'Pragma': 'no-cache',
-    'Referer': 'https://duckduckgo.com/',
-    'Sec-Fetch-Dest': 'document',
-    'Sec-Fetch-Mode': 'navigate',
-    'Sec-Fetch-Site': 'same-origin',
-    'Sec-Fetch-User': '?1',
-    'Sec-GPC': '1',
-    'Upgrade-Insecure-Requests': '1',
-    'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Mobile Safari/537.36',
-    'sec-ch-ua': '"Chromium";v="116", "Not)A;Brand";v="24", "Brave";v="116"',
-    'sec-ch-ua-mobile': '?1',
-    'sec-ch-ua-platform': '"Android"',
-}
+# class="sc-gFqAkR deYOvn"
 
-params = {
-    'groupId': '5ccb849f-57aa-460d-9f0c-545d81e69bfc',
-}
+driver = webdriver.Firefox()
 
-response = requests.get('https://schedule.kpi.ua/', params=params, headers=headers)
 
-with open('file.html', 'wb') as write_file:
-    write_file.write(response.content)
+url = 'http://roz.kpi.ua/'  # Замініть це на URL вашої сторінки
+url2 = 'http://epi.kpi.ua/Schedules/ViewSchedule.aspx?g=0698046f-fdc3-4ef8-bf4b-c720989e9ae5'
+driver.get(url2)
+
+# element = driver.find_elements('sc-gFqAkR deYOvn')
+
+html_code = driver.page_source
+
+# Зберегти HTML-код у файл
+with open('output2.html', 'w', encoding='utf-8') as file:
+    file.write(html_code)
+
+# Закрити браузер
+driver.quit()
