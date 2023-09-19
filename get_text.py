@@ -43,27 +43,29 @@ def sort_all_elements(main, n_table=0):
         if n_table == 1:
             break
 
+    for day in range(len(days)):
+        for element_second in range(len(days[day])):
+            print(days[day][element_second].get('a', None))
+        print()
+
     def print_elements():
 
         for day in range(len(days)):
             for element_second in range(len(days[day])):
-                temp = days[day][element_second].find_all('a')
+                temp = days[day][element_second].find_all('td')
                 for values in temp:
-                    # if len(str(values.text)) == 0:
-                    #     print('-')
-                    #     continue
-                    # print(type(values.text))
+
+                    print(values)
 
                     if str(values.text)[0].isdigit():
 
                         print(str(values.text)[7:])
                         continue
                     print(values.text)
-                print('\n')
+
             print('\n\n')
 
-    print_elements()
-    print()
+    # print_elements()
     return days
 
 
