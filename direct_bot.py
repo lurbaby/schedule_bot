@@ -14,7 +14,7 @@ def start_msg(message):
     kb.add(btn1)
 
     bg_png = open('bg_2.png', 'rb')
-    bot.send_photo(message.chat.id, bg_png, caption='<b>Вітаю тебе в помічнику РЕ-31!</b> \n\n👨🏻‍🎓Тут ти можеш швидко подивитися розклад!\n\n🔅 Вибирай Розклад занять в меню внизу',
+    bot.send_photo(message.chat.id, bg_png, caption='<b>Вітаю тебе в помічнику РТФ!</b> \n\n👨🏻‍🎓Тут ви можете швидко подивитися розклад своєї групи!\n\n🔅Напишіть назву вашої групи через дефіс наприклад РЕ-31',
                    parse_mode='HTML', reply_markup=kb)
     bg_png.close()
 
@@ -65,7 +65,7 @@ def wrong_msg(message, mode=1):
             message.text != days[1] and
             message.text != days[2] and
             message.text != days[3] and
-            message.text != days[4])and (message.text != "📚Розклад занять"):
+            message.text != days[4])and (message.text != "📚Розклад занять") and (message.text).lower() != "ре-31":
             bot.send_message(message.chat.id,
                              "<b>🚫Схоже ви ввели невірну команду🚫</b>\n\n <b>Cкористайтеся командами в меню!👇</b>",
                              parse_mode='HTML')
@@ -80,7 +80,7 @@ def wrong_msg(message, mode=1):
             btn6 = types.KeyboardButton(text="")
             kb_2.add(btn1, btn2, btn3, btn4, btn5)
 
-            if message.text == "📚Розклад занять":
+            if (message.text).lower() == "ре-31":
                 bot.send_message(message.chat.id, '<b>Виберіть потрібний день в меню внизу!👇!</b>', reply_markup=kb_2, parse_mode='HTML')
         auth()
 
