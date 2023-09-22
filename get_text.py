@@ -45,71 +45,29 @@ def sort_all_elements(main, n_table=0):
 
     for day in range(len(days)):
         for element_second in range(len(days[day])):
-            print(days[day][element_second].get('a', None))
-        print()
+            current_element = days[day][element_second].find_all('a')
 
-    def print_elements():
+            #skip day name
+            if (element_second == 0):
+                continue
 
-        for day in range(len(days)):
-            for element_second in range(len(days[day])):
-                temp = days[day][element_second].find_all('td')
-                for values in temp:
+            if (len(current_element) != 0):
+                for find_text in range(len(current_element)):
 
-                    print(values)
+                    extacted_elements[day].append(current_element[find_text].text)
+                    # print(current_element[find_text].text, end=' ')
+                # print()
+            else:
+                # print(current_element)
+                extacted_elements[day].append(current_element)
+            # print(len(current_element))
 
-                    if str(values.text)[0].isdigit():
+        # print()
 
-                        print(str(values.text)[7:])
-                        continue
-                    print(values.text)
 
-            print('\n\n')
-
-    # print_elements()
-    return days
-
+    return extacted_elements
 
 
 week_1 = sort_all_elements(get_html(url), 1)
 week_2 = sort_all_elements(get_html(url), 0)
-
-def extract_info(week):
-
-    extacted_elements = [[], [], [], [], [], []]
-
-
-    for day in range(len(week)):
-        for element_second in range(len(week[day])):
-            extacted_elements[day].append(week[day][element_second].find('span'))
-            # for last_element in range(len(week[day][element_second])): [last_element]
-
-    return extacted_elements
-
-# test = extract_info(week_1)
-
-# print('\n\n\n\n')
-# for i in range(len(week_1)):
-#     for j in range(len(week_1[i])):
-#         print(week_1[i][j])
-# print('\n\n\n\n')
-#
-# for i in range(len(week_2)):
-#     for j in range(len(week_2[i])):
-#         print(week_2[i][j])
-
-# for i in range(len(test)):
-#
-#     for j in range(len(test[i])):
-#         print(f"{j} Element : ", test[i][j])
-#
-#
-# print('\n\n\n\n')
-
-
-
-# for i in range(len(week_1)):
-#     for j in range(len(week_1[i])):
-#         print(f"{j} Element : ", week_1[i][j])
-# print('\n\n\n\n')
-
 

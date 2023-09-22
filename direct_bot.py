@@ -1,5 +1,6 @@
 import telebot
 from telebot import types
+from get_text import *
 
 bot = telebot.TeleBot('6500439714:AAH738daeLTRG8uAdyoepcwEOh7qRh7T_KU')
 print('start')
