@@ -71,3 +71,7 @@ def sort_all_elements(main, n_table=0):
 week_1 = sort_all_elements(get_html(url), 1)
 week_2 = sort_all_elements(get_html(url), 0)
 
+# for i in week_1:
+#     for j in i:
+#         print(j)
+#     print()
