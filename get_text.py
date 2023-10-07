@@ -67,24 +67,41 @@ def sort_all_elements(main, n_table=0):
 
 
 def replace_wrong_sort_by_lessons(extacted_elements):
-    final_array = [[], [], [], [], [], []]
+    final_array = [
+                   [ [], [], [], [], [], [] ],
+                   [ [], [], [], [], [], [] ],
+                   [ [], [], [], [], [], [] ],
+                   [ [], [], [], [], [], [] ],
+                   [ [], [], [], [], [], [] ],
+                   [ [], [], [], [], [], [] ]
+                  ]
 
     for every_day in range(len(extacted_elements)):
-        final_array[every_day].append([])
+        lesson_index = 0
+
         for lessons in range(len(extacted_elements[every_day])):
 
-
-
             if len(extacted_elements[every_day][lessons]) == 0:
-                final_array[every_day][every_day].append('-')
+                if lessons != 0:
+                    lesson_index += 1
+                final_array[every_day][lesson_index].append('-')
+                continue
 
-            if extacted_elements[every_day][lessons][0].isupper():
-                final_array[every_day][every_day] = []
+            if extacted_elements[every_day][lessons][0].isupper() and lessons != 0:
+                lesson_index += 1
 
-            final_array[every_day][every_day].append(extacted_elements[every_day][lessons])
+            final_array[every_day][lesson_index].append(extacted_elements[every_day][lessons])
 
-            # if extacted_elements[every_day][lessons][0].isupper():
-                # final_array[every_day].append([extacted_elements[every_day][lessons]])
+    for day_element in final_array:
+        for subject_element in day_element:
+
+            skip_cabinet_index = 0
+
+            for each_element_of_subject in subject_element:
+
+                if each_element_of_subject[0].isdigit():
+                    skip_cabinet_index += 1
+                    continue
 
 
     return final_array
