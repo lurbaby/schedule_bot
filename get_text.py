@@ -63,15 +63,37 @@ def sort_all_elements(main, n_table=0):
             # print(len(current_element))
 
         # print()
-
-
     return extacted_elements
 
 
-week_1 = sort_all_elements(get_html(url), 1)
+def replace_wrong_sort_by_lessons(extacted_elements):
+    final_array = [[], [], [], [], [], []]
+
+    for every_day in range(len(extacted_elements)):
+        final_array[every_day].append([])
+        for lessons in range(len(extacted_elements[every_day])):
+
+
+
+            if len(extacted_elements[every_day][lessons]) == 0:
+                final_array[every_day][every_day].append('-')
+
+            if extacted_elements[every_day][lessons][0].isupper():
+                final_array[every_day][every_day] = []
+
+            final_array[every_day][every_day].append(extacted_elements[every_day][lessons])
+
+            # if extacted_elements[every_day][lessons][0].isupper():
+                # final_array[every_day].append([extacted_elements[every_day][lessons]])
+
+
+    return final_array
+
+
+week_1 = replace_wrong_sort_by_lessons(sort_all_elements(get_html(url), 1))
 week_2 = sort_all_elements(get_html(url), 0)
 
-# for i in week_1:
-#     for j in i:
-#         print(j)
-#     print()
+for i in week_1:
+    for j in i:
+        print(j)
+    print()
