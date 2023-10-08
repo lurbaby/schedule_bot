@@ -61,7 +61,7 @@ def start_msg(message):
 @bot.message_handler(func=lambda m: True)
 def wrong_msg(message, mode=1):
 
-    days = ["Понеділок", "Вівторок", "Середа", "Четвер", "П'ятниця"]
+    days = ["Понеділок", "Вівторок", "Середа", "Четвер", "П'ятниця", "Субота"]
     week = replace_wrong_sort_by_lessons(sort_all_elements(get_html(url), 1))
 
 
@@ -83,27 +83,233 @@ def wrong_msg(message, mode=1):
 
                 for subject in range(len(week[msg])):
 
+                    if subject > 4:
+                        continue
+
                     if emoji_index <= 4:
                         final_msg += numbers_list[emoji_index]
                         emoji_index += 1
 
-                    if len(week[msg][subject]) == 4:
-                        week[msg][subject][1] += ' '+ week[msg][subject][2]
-                        week[msg][subject].pop(2)
-                        len_4_flag = True
+                    if len(week[msg][subject]) == 1:
+                        final_msg += f"❌\n{emoji_list[0]}❌\n{emoji_list[1]}❌\n"
+                    else:
+                        if len(week[msg][subject]) == 4:
+                            week[msg][subject][1] += ' '+ week[msg][subject][2]
+                            week[msg][subject].pop(2)
+                            len_4_flag = True
 
-                    for subject_elements in range(len(week[msg][subject])):
+                        for subject_elements in range(len(week[msg][subject])):
 
-                        test = week[msg][subject][subject_elements]
+                            test = week[msg][subject][subject_elements]
 
-                        if subject_elements == 0:
-                            final_msg += '<b>' + week[msg][subject][subject_elements] + '</b>'+'\n'
+                            if subject_elements == 0:
+                                final_msg += '<b>' + week[msg][subject][subject_elements] + '</b>'+'\n'
 
-                        elif subject_elements == 1:
-                            final_msg += emoji_list[0] + week[msg][subject][subject_elements] + '\n'
+                            elif subject_elements == 1:
+                                final_msg += emoji_list[0] + week[msg][subject][subject_elements] + '\n'
 
-                        elif subject_elements == 2:
-                            final_msg += emoji_list[1] + week[msg][subject][subject_elements] + '\n'
+                            elif subject_elements == 2:
+                                final_msg += emoji_list[1] + week[msg][subject][subject_elements] + '\n'
+
+                    if show_time_index <= 4:
+                        final_msg += f' {emoji_list[2]}{show_time[show_time_index]}\n➖➖➖➖➖➖➖➖➖➖\n'
+                        show_time_index += 1
+
+                bot.send_message(message.chat.id, f"{final_msg}", parse_mode='HTML')
+
+            elif msg == 1 and message.text == days[1]:
+
+                final_msg += '<b>Розклад на Вівторок : </b>\n➖➖➖➖➖➖➖➖➖➖\n'
+
+                for subject in range(len(week[msg])):
+
+                    if subject > 4:
+                        continue
+
+                    if emoji_index <= 4:
+                        final_msg += numbers_list[emoji_index]
+                        emoji_index += 1
+
+                    if len(week[msg][subject]) == 1:
+                        final_msg += f"❌\n{emoji_list[0]}❌\n{emoji_list[1]}❌\n"
+                    else:
+                        if len(week[msg][subject]) == 4:
+                            week[msg][subject][1] += ' '+ week[msg][subject][2]
+                            week[msg][subject].pop(2)
+                            len_4_flag = True
+
+                        for subject_elements in range(len(week[msg][subject])):
+
+                            test = week[msg][subject][subject_elements]
+
+                            if subject_elements == 0:
+                                final_msg += '<b>' + week[msg][subject][subject_elements] + '</b>'+'\n'
+
+                            elif subject_elements == 1:
+                                final_msg += emoji_list[0] + week[msg][subject][subject_elements] + '\n'
+
+                            elif subject_elements == 2:
+                                final_msg += emoji_list[1] + week[msg][subject][subject_elements] + '\n'
+
+                    if show_time_index <= 4:
+                        final_msg += f' {emoji_list[2]}{show_time[show_time_index]}\n➖➖➖➖➖➖➖➖➖➖\n'
+                        show_time_index += 1
+
+                bot.send_message(message.chat.id, f"{final_msg}", parse_mode='HTML')
+
+            elif msg == 2 and message.text == days[2]:
+
+                final_msg += '<b>Розклад на Середу : </b>\n➖➖➖➖➖➖➖➖➖➖\n'
+
+                for subject in range(len(week[msg])):
+
+                    if subject > 4:
+                        continue
+
+                    if emoji_index <= 4:
+                        final_msg += numbers_list[emoji_index]
+                        emoji_index += 1
+
+                    if len(week[msg][subject]) == 1:
+                        final_msg += f"❌\n{emoji_list[0]}❌\n{emoji_list[1]}❌\n"
+                    else:
+                        if len(week[msg][subject]) == 4:
+                            week[msg][subject][1] += ' '+ week[msg][subject][2]
+                            week[msg][subject].pop(2)
+                            len_4_flag = True
+
+                        for subject_elements in range(len(week[msg][subject])):
+
+                            test = week[msg][subject][subject_elements]
+
+                            if subject_elements == 0:
+                                final_msg += '<b>' + week[msg][subject][subject_elements] + '</b>'+'\n'
+
+                            elif subject_elements == 1:
+                                final_msg += emoji_list[0] + week[msg][subject][subject_elements] + '\n'
+
+                            elif subject_elements == 2:
+                                final_msg += emoji_list[1] + week[msg][subject][subject_elements] + '\n'
+
+                    if show_time_index <= 4:
+                        final_msg += f' {emoji_list[2]}{show_time[show_time_index]}\n➖➖➖➖➖➖➖➖➖➖\n'
+                        show_time_index += 1
+
+                bot.send_message(message.chat.id, f"{final_msg}", parse_mode='HTML')
+
+            elif msg == 3 and message.text == days[3]:
+
+                final_msg += '<b>Розклад на Четвер : </b>\n➖➖➖➖➖➖➖➖➖➖\n'
+
+                for subject in range(len(week[msg])):
+
+                    if subject > 4:
+                        continue
+
+                    if emoji_index <= 4:
+                        final_msg += numbers_list[emoji_index]
+                        emoji_index += 1
+
+                    if len(week[msg][subject]) == 1:
+                        final_msg += f"❌\n{emoji_list[0]}❌\n{emoji_list[1]}❌\n"
+                    else:
+                        if len(week[msg][subject]) == 4:
+                            week[msg][subject][1] += ' '+ week[msg][subject][2]
+                            week[msg][subject].pop(2)
+                            len_4_flag = True
+
+                        for subject_elements in range(len(week[msg][subject])):
+
+                            test = week[msg][subject][subject_elements]
+
+                            if subject_elements == 0:
+                                final_msg += '<b>' + week[msg][subject][subject_elements] + '</b>'+'\n'
+
+                            elif subject_elements == 1:
+                                final_msg += emoji_list[0] + week[msg][subject][subject_elements] + '\n'
+
+                            elif subject_elements == 2:
+                                final_msg += emoji_list[1] + week[msg][subject][subject_elements] + '\n'
+
+                    if show_time_index <= 4:
+                        final_msg += f' {emoji_list[2]}{show_time[show_time_index]}\n➖➖➖➖➖➖➖➖➖➖\n'
+                        show_time_index += 1
+
+                bot.send_message(message.chat.id, f"{final_msg}", parse_mode='HTML')
+
+            elif msg == 4 and message.text == days[4]:
+
+                final_msg += '<b>Розклад на П\'ятницю : </b>\n➖➖➖➖➖➖➖➖➖➖\n'
+
+                for subject in range(len(week[msg])):
+
+                    if subject > 4:
+                        continue
+
+                    if emoji_index <= 4:
+                        final_msg += numbers_list[emoji_index]
+                        emoji_index += 1
+
+                    if len(week[msg][subject]) == 1:
+                        final_msg += f"❌\n{emoji_list[0]}❌\n{emoji_list[1]}❌\n"
+                    else:
+                        if len(week[msg][subject]) == 4:
+                            week[msg][subject][1] += ' '+ week[msg][subject][2]
+                            week[msg][subject].pop(2)
+                            len_4_flag = True
+
+                        for subject_elements in range(len(week[msg][subject])):
+
+                            test = week[msg][subject][subject_elements]
+
+                            if subject_elements == 0:
+                                final_msg += '<b>' + week[msg][subject][subject_elements] + '</b>'+'\n'
+
+                            elif subject_elements == 1:
+                                final_msg += emoji_list[0] + week[msg][subject][subject_elements] + '\n'
+
+                            elif subject_elements == 2:
+                                final_msg += emoji_list[1] + week[msg][subject][subject_elements] + '\n'
+
+                    if show_time_index <= 4:
+                        final_msg += f' {emoji_list[2]}{show_time[show_time_index]}\n➖➖➖➖➖➖➖➖➖➖\n'
+                        show_time_index += 1
+
+                bot.send_message(message.chat.id, f"{final_msg}", parse_mode='HTML')
+
+            elif msg == 5 and message.text == days[5]:
+
+                final_msg += '<b>Розклад на Суботу : </b>\n➖➖➖➖➖➖➖➖➖➖\n'
+
+                for subject in range(len(week[msg])):
+
+                    if subject > 4:
+                        continue
+
+                    if emoji_index <= 4:
+                        final_msg += numbers_list[emoji_index]
+                        emoji_index += 1
+
+                    if len(week[msg][subject]) == 1:
+                        final_msg += f"❌\n{emoji_list[0]}❌\n{emoji_list[1]}❌\n"
+                    else:
+                        if len(week[msg][subject]) == 4:
+                            week[msg][subject][1] += ' '+ week[msg][subject][2]
+                            week[msg][subject].pop(2)
+                            len_4_flag = True
+
+                        for subject_elements in range(len(week[msg][subject])):
+
+                            test = week[msg][subject][subject_elements]
+
+                            if subject_elements == 0:
+                                final_msg += '<b>' + week[msg][subject][subject_elements] + '</b>'+'\n'
+
+                            elif subject_elements == 1:
+                                final_msg += emoji_list[0] + week[msg][subject][subject_elements] + '\n'
+
+                            elif subject_elements == 2:
+                                final_msg += emoji_list[1] + week[msg][subject][subject_elements] + '\n'
 
                     if show_time_index <= 4:
                         final_msg += f' {emoji_list[2]}{show_time[show_time_index]}\n➖➖➖➖➖➖➖➖➖➖\n'
@@ -112,55 +318,14 @@ def wrong_msg(message, mode=1):
                 bot.send_message(message.chat.id, f"{final_msg}", parse_mode='HTML')
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        # if message.text == days[1]:
-        #     bot.send_message(message.chat.id, f"<b>Розклад на Вівторок : </b>"
-        #                                       f"\n\n1. Аналітична геометрія та лінійна алгебра\n\t(Павленков В.В.)"
-        #                                       f"\n\n2. Інженерна та комп’ютерна графіка. Частина 1\n\t(Гнітецька Г.О.)"
-        #                                       f"\n\n3. Загальна фізика. Частина 1\n\t(Репалов І.М.)", parse_mode='HTML')
-        # if message.text == days[2]:
-        #     bot.send_message(message.chat.id, f"<b>Розклад на Середу : </b>"
-        #                                       f"\n\n1. Здоровий сон запорука успіху\n\t(Ясо сухуй 2000 років до н.е.)"
-        #                                       f"\n\n2. Математичний аналіз. Частина 1\n\t(Маслюк Г.О.)"
-        #                                       f"\n\n3. Основи здорового способу життя\n\t(Мартинов Ю.О.)"
-        #                                       f"\n\n4. Інженерна та комп’ютерна графіка. Частина 1\n\t(Гнітецька Г.О.)",
-        #                      parse_mode='HTML')
-        # if message.text == days[3]:
-        #     bot.send_message(message.chat.id, f"<b>Розклад на Четвер : </b>"
-        #                                       f"\n\n1. Інформатика. Частина 1\n\t(Вишневий С.В.)"
-        #                                       f"\n\n2. Математичний аналіз. Частина 1\n\t(Диховичний О.О.)"
-        #                                       f"\n\n3. Основи здорового способу життя (2-10)\n\t(Саламаха О.Є.)",
-        #                      parse_mode='HTML')
-        # if message.text == days[4]:
-        #     bot.send_message(message.chat.id, f"<b>Розклад на П'ятницю</b>"
-        #                                       f"\n\n1. Здоровий сон запорука успіху\n\t(Ясо Cухуй 2000 років до н.е.)"
-        #                                       f"\n\n2. Практичний курс іноземної мови. Частина 1\n\t(Чіжова Н.В.)"
-        #                                       f"\n\n3. Загальна фізика. Частина 1\n\t(Репалов І.М.)"
-        #                                       f"\n\n4. Аналітична геометрія та лінійна алгебра\n\t(Маслюк Г.О.)"
-        #                                       f"\n\n5. Інформатика. Частина 1. Основи програмування та алгоритми\n\t(Товкач І.О.,Катін П.Ю.)",
-        #                      parse_mode='HTML')
-
     if mode == 1:
 
         if (message.text != days[0] and
             message.text != days[1] and
             message.text != days[2] and
             message.text != days[3] and
-            message.text != days[4])and (message.text != "📚Розклад занять") and (message.text).lower() != "ре-31":
+            message.text != days[4] and
+            message.text != days[5])and (message.text != "📚Розклад занять") and (message.text).lower() != "ре-31":
             bot.send_message(message.chat.id,
                              "<b>🚫Схоже ви ввели невірну команду🚫</b>\n\n <b>Cкористайтеся командами в меню!👇</b>",
                              parse_mode='HTML')
@@ -172,8 +337,8 @@ def wrong_msg(message, mode=1):
             btn3 = types.KeyboardButton(text=days[2])
             btn4 = types.KeyboardButton(text=days[3])
             btn5 = types.KeyboardButton(text=days[4])
-            btn6 = types.KeyboardButton(text="")
-            kb_2.add(btn1, btn2, btn3, btn4, btn5)
+            btn6 = types.KeyboardButton(text=days[5])
+            kb_2.add(btn1, btn2, btn3, btn4, btn5, btn6)
 
             if (message.text).lower() == "ре-31":
                 bot.send_message(message.chat.id, '<b>Виберіть потрібний день в меню внизу!👇!</b>', reply_markup=kb_2, parse_mode='HTML')
@@ -184,8 +349,6 @@ def wrong_msg(message, mode=1):
 @bot.message_handler(content_types=['photo', 'video', 'document', 'animation', 'sticker'])
 def media_error(message):
     bot.send_message(message.chat.id, "<b>😡Не потрібно засмічувати цей чат😡</b>", parse_mode='HTML')
-
-
 
 
 bot.infinity_polling()
