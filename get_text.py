@@ -1,6 +1,9 @@
 from bs4 import BeautifulSoup
 import requests
-url = 'http://epi.kpi.ua/Schedules/ViewSchedule.aspx?g=fa1a9406-067e-4e0e-9c37-f726ca1f9a06'
+from direct_bot import url
+
+
+
 def get_html(url):
     response = requests.get(url)
 
