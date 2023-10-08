@@ -55,14 +55,10 @@ def sort_all_elements(main, n_table=0):
                 for find_text in range(len(current_element)):
 
                     extacted_elements[day].append(current_element[find_text].text)
-                    # print(current_element[find_text].text, end=' ')
-                # print()
-            else:
-                # print(current_element)
-                extacted_elements[day].append(current_element)
-            # print(len(current_element))
 
-        # print()
+            else:
+                extacted_elements[day].append(current_element)
+
     return extacted_elements
 
 
@@ -92,16 +88,31 @@ def replace_wrong_sort_by_lessons(extacted_elements):
 
             final_array[every_day][lesson_index].append(extacted_elements[every_day][lessons])
 
-    for day_element in final_array:
-        for subject_element in day_element:
+
+    for day_element in range(len(final_array)):
+        for subject_element in range(len(final_array[day_element])):
 
             skip_cabinet_index = 0
 
-            for each_element_of_subject in subject_element:
+            for each_element_of_subject in range(len(final_array[day_element][subject_element])):
 
-                if each_element_of_subject[0].isdigit():
+                if final_array[day_element][subject_element][each_element_of_subject][0].isdigit():
+
+                    final_array[day_element][subject_element][each_element_of_subject] = final_array[day_element][subject_element][each_element_of_subject][
+                        final_array[day_element][subject_element][each_element_of_subject].find(' ')+1:]
+
+                    #видаємо елемент якщо він вже є в масиві [кабінет і вид заняття]
+                    if skip_cabinet_index != 0:
+                        final_array[day_element][subject_element].remove(final_array[day_element][subject_element][each_element_of_subject])
+
                     skip_cabinet_index += 1
                     continue
+
+                if final_array[day_element][subject_element][each_element_of_subject][0].islower():
+                    final_array[day_element][subject_element][each_element_of_subject] = final_array[day_element][subject_element][each_element_of_subject][
+                    final_array[day_element][subject_element][each_element_of_subject].find(' ') + 1:].replace('. ', '.')
+
+
 
 
     return final_array
@@ -109,8 +120,3 @@ def replace_wrong_sort_by_lessons(extacted_elements):
 
 week_1 = replace_wrong_sort_by_lessons(sort_all_elements(get_html(url), 1))
 week_2 = sort_all_elements(get_html(url), 0)
-
-for i in week_1:
-    for j in i:
-        print(j)
-    print()

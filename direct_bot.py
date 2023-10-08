@@ -62,22 +62,52 @@ def start_msg(message):
 def wrong_msg(message, mode=1):
 
     days = ["Понеділок", "Вівторок", "Середа", "Четвер", "П'ятниця"]
-    week = sort_all_elements(get_html(url), 1)
+    week = replace_wrong_sort_by_lessons(sort_all_elements(get_html(url), 1))
 
 
     def auth():
         final_msg = ""
-        numbers_list = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣']
+        numbers_list = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣']
         emoji_list = ['🎓', '📍', '🕒']
+        show_time = ['8:30 - 9:55', '10:25 - 12:00', '12:20 - 13:55', '14:15 - 15:50', '16:10 - 18:10']
+        show_time_index = 0
         emoji_index = 0
+
+        len_4_flag = False
 
         for msg in range(len(week)):
 
-
-
             if msg == 0 and message.text == days[0]:
 
-                # final_msg += '<b>Розклад на Понеділок : </b>\n➖➖➖➖➖➖➖➖➖➖\n'
+                final_msg += '<b>Розклад на Понеділок : </b>\n➖➖➖➖➖➖➖➖➖➖\n'
+
+                for subject in range(len(week[msg])):
+
+                    if emoji_index <= 4:
+                        final_msg += numbers_list[emoji_index]
+                        emoji_index += 1
+
+                    if len(week[msg][subject]) == 4:
+                        week[msg][subject][1] += ' '+ week[msg][subject][2]
+                        week[msg][subject].pop(2)
+                        len_4_flag = True
+
+                    for subject_elements in range(len(week[msg][subject])):
+
+                        test = week[msg][subject][subject_elements]
+
+                        if subject_elements == 0:
+                            final_msg += '<b>' + week[msg][subject][subject_elements] + '</b>'+'\n'
+
+                        elif subject_elements == 1:
+                            final_msg += emoji_list[0] + week[msg][subject][subject_elements] + '\n'
+
+                        elif subject_elements == 2:
+                            final_msg += emoji_list[1] + week[msg][subject][subject_elements] + '\n'
+
+                    if show_time_index <= 4:
+                        final_msg += f' {emoji_list[2]}{show_time[show_time_index]}\n➖➖➖➖➖➖➖➖➖➖\n'
+                        show_time_index += 1
 
                 bot.send_message(message.chat.id, f"{final_msg}", parse_mode='HTML')
 
