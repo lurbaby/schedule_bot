@@ -1,12 +1,24 @@
 import telebot
-from telebot import types
+from telebot import types, custom_filters
 from get_text import *
 from check_date import check_date
+from telebot.types import ReplyKeyboardRemove
 
-url = ''
-bot = telebot.TeleBot('6500439714:AAH738daeLTRG8uAdyoepcwEOh7qRh7T_KU')
+# states
+from telebot.handler_backends import State, StatesGroup
+from telebot.storage import StateMemoryStorage
+
+
+
+
+bot = telebot.TeleBot('6500439714:AAH738daeLTRG8uAdyoepcwEOh7qRh7T_KU', parse_mode='HTML')
 print('start')
-days = ["Понеділок", "Вівторок", "Середа", "Четвер", "П'ятниця", "Субота"]
+days = ["понеділок", "вівторок", "середа", "четвер", "п'ятниця", "субота"]
+
+class current_states(StatesGroup):
+
+    group_name = State()
+    select_day = State()
 
 groups = {
               'ре-31':"http://epi.kpi.ua/Schedules/ViewSchedule.aspx?g=fa1a9406-067e-4e0e-9c37-f726ca1f9a06",
@@ -14,6 +26,18 @@ groups = {
               'рі-32':"http://epi.kpi.ua/Schedules/ViewSchedule.aspx?g=a3e7025c-b393-49a8-b914-0654f23541bc",
               'рс-31':"http://epi.kpi.ua/Schedules/ViewSchedule.aspx?g=0698046f-fdc3-4ef8-bf4b-c720989e9ae5",
               'рі-п31':"http://epi.kpi.ua/Schedules/ViewSchedule.aspx?g=123f25c6-82d0-4c70-9931-fec1a2bfe3c0",
+              'ре-31мп':"http://epi.kpi.ua/Schedules/ViewSchedule.aspx?g=f22013e7-11e8-45a1-91dc-d20a5384b315",
+              'рс-31мп': "http://epi.kpi.ua/Schedules/ViewSchedule.aspx?g=2acfc079-2a61-4c25-b193-b06973e4fb3d",
+              'ре-21мн': "http://epi.kpi.ua/Schedules/ViewSchedule.aspx?g=fe02a87f-2965-4864-8ada-6e090a8e368c",
+              'рі-21мн':"http://epi.kpi.ua/Schedules/ViewSchedule.aspx?g=a30fc710-3ada-4188-ba3a-4339b515c02b",
+              'рс-21мн':"http://epi.kpi.ua/Schedules/ViewSchedule.aspx?g=a30fc710-3ada-4188-ba3a-4339b515c02b",
+              'ре-21мп':"http://epi.kpi.ua/Schedules/ViewSchedule.aspx?g=894a483c-7817-422f-8407-85012cdbb552",
+              'рі-21мп':"http://epi.kpi.ua/Schedules/ViewSchedule.aspx?g=c32b8825-a5bf-4541-9b2a-bf1198c8ea51",
+              'рс-21мп':"http://epi.kpi.ua/Schedules/ViewSchedule.aspx?g=5e2d9504-5570-4751-a029-1ceebf592fd2",
+
+
+
+
               'ре-21':"http://epi.kpi.ua/Schedules/ViewSchedule.aspx?g=b037d505-6e78-4900-8691-7651009b2ce9",
               'ре-22':"http://epi.kpi.ua/Schedules/ViewSchedule.aspx?g=6241332b-f071-47dc-86a4-a685a51f7e3c",
               'рі-21':"http://epi.kpi.ua/Schedules/ViewSchedule.aspx?g=88249ead-8697-4b80-b0d9-7bac6ff748a9",
@@ -34,15 +58,8 @@ groups = {
               'ре-31мн':"http://epi.kpi.ua/Schedules/ViewSchedule.aspx?g=e9f0d998-bb95-4a2f-9532-92a5f4b87185",
               'рі-31мн':"http://epi.kpi.ua/Schedules/ViewSchedule.aspx?g=cba20702-d1b8-4314-b33c-4d29f3dc7269",
               'рс-31мн':"http://epi.kpi.ua/Schedules/ViewSchedule.aspx?g=44ec3095-bc91-49ba-90de-8cc1c196ad19",
-              'ре-31мп':"http://epi.kpi.ua/Schedules/ViewSchedule.aspx?g=f22013e7-11e8-45a1-91dc-d20a5384b315",
               'рі-31мп':"http://epi.kpi.ua/Schedules/ViewSchedule.aspx?g=05eb79d2-5480-401f-bdd7-8ef8a7162660",
-              'рс-31мп':"http://epi.kpi.ua/Schedules/ViewSchedule.aspx?g=2acfc079-2a61-4c25-b193-b06973e4fb3d",
-              'ре-21мн':"http://epi.kpi.ua/Schedules/ViewSchedule.aspx?g=fe02a87f-2965-4864-8ada-6e090a8e368c",
-              'рі-21мн':"http://epi.kpi.ua/Schedules/ViewSchedule.aspx?g=a30fc710-3ada-4188-ba3a-4339b515c02b",
-              'рс-21мн':"http://epi.kpi.ua/Schedules/ViewSchedule.aspx?g=a30fc710-3ada-4188-ba3a-4339b515c02b",
-              'ре-21мп':"http://epi.kpi.ua/Schedules/ViewSchedule.aspx?g=894a483c-7817-422f-8407-85012cdbb552",
-              'рі-21мп':"http://epi.kpi.ua/Schedules/ViewSchedule.aspx?g=c32b8825-a5bf-4541-9b2a-bf1198c8ea51",
-              'рс-21мп':"http://epi.kpi.ua/Schedules/ViewSchedule.aspx?g=5e2d9504-5570-4751-a029-1ceebf592fd2"
+
               }
 
 
@@ -301,62 +318,65 @@ def auth(message, week):
 
 @bot.message_handler(commands=['start'])
 def start_msg(message):
-    kb = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    # btn1 = types.KeyboardButton(text='📚Розклад занять')
-    # btn2 = types.KeyboardButton(text='Викладачі')
-    # kb.add(btn1)
 
-    bg_png = open('bg_2.png', 'rb')
-    bot.send_photo(message.chat.id, bg_png, caption='<b>Вітаю тебе в помічнику РТФ!</b> \n\n👨🏻‍🎓Тут ви можете швидко подивитися розклад своєї групи!\n\n🔅Напишіть назву вашої групи через дефіс наприклад ре-31👇',
-                   parse_mode='HTML')
-    bg_png.close()
+    bot.set_state(message.from_user.id, current_states.group_name, message.chat.id)
+    with open('bg_2.png', 'rb') as bg_png:
+        bot.send_photo(message.chat.id, bg_png, caption='<b>Вітаю тебе в помічнику РТФ!</b> \n\n👨🏻‍🎓Тут ви можете швидко подивитися розклад своєї групи!\n\n🔅Напишіть назву вашої групи через дефіс наприклад ре-31👇')
+
+@bot.message_handler(state=current_states.group_name)
+def select_group(message):
+    group_name = message.text.lower()
+
+    kb_2 = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    btn1 = types.KeyboardButton(text=days[0])
+    btn2 = types.KeyboardButton(text=days[1])
+    btn3 = types.KeyboardButton(text=days[2])
+    btn4 = types.KeyboardButton(text=days[3])
+    btn5 = types.KeyboardButton(text=days[4])
+    btn6 = types.KeyboardButton(text=days[5])
+    btn7 = types.KeyboardButton(text="Вибрати групу ще раз")
+    kb_2.add(btn1, btn2, btn3, btn4, btn5, btn6, btn7)
 
 
 
-@bot.message_handler(func=lambda m: True)
-def wrong_msg(message, mode=1):
+
+    if group_name in groups:
+        bot.send_message(message.chat.id, "<b>Ви успішно обрали групу!</b>")
+        bot.send_message(message.chat.id, '<b>Виберіть потрібний день в меню внизу!👇</b>', reply_markup=kb_2)
+        bot.set_state(message.from_user.id, current_states.select_day)
+
+        with bot.retrieve_data(message.from_user.id, message.chat.id) as state_info:
+            state_info['group_name'] = group_name
+    else:
+        bot.send_message(message.chat.id, "невірне ім'я групи!")
 
 
-    if mode == 1:
 
-        if (message.text not in days) and (message.text.lower() not in groups.keys()) and (message.text not in ["Перший тиждень", "Другий тиждень"]):
+@bot.message_handler(state=current_states.select_day)
+def select_day(message):
+    day = message.text.lower()
 
-            bot.send_message(message.chat.id, "<b>🚫Схоже ви ввели невірну команду🚫</b>\n\n <b>Cкористайтеся командами в меню!👇</b>",parse_mode='HTML')
-        else:
-            kb_select_week = types.ReplyKeyboardMarkup(resize_keyboard=True)
-            kb_select_week_1 = types.KeyboardButton(text="Перший тиждень")
-            kb_select_week_2 = types.KeyboardButton(text="Другий тиждень")
-            kb_select_week.add(kb_select_week_1, kb_select_week_2)
+    if day in days:
 
-            if (message.text).lower() in groups.keys():
-                url = groups[message.text]
-                bot.send_message(message.chat.id, '<b>Виберіть потрібний пункт!👇</b>',parse_mode='HTML',reply_markup=kb_select_week)
+        with bot.retrieve_data(message.from_user.id, message.chat.id) as state_info:
 
-            kb_2 = types.ReplyKeyboardMarkup(resize_keyboard=True)
-            btn1 = types.KeyboardButton(text=days[0])
-            btn2 = types.KeyboardButton(text=days[1])
-            btn3 = types.KeyboardButton(text=days[2])
-            btn4 = types.KeyboardButton(text=days[3])
-            btn5 = types.KeyboardButton(text=days[4])
-            btn6 = types.KeyboardButton(text=days[5])
-            kb_2.add(btn1, btn2, btn3, btn4, btn5, btn6)
+            schedule_msg = replace_wrong_sort_by_lessons(sort_all_elements(get_html(groups[state_info['group_name']]), 1))
 
-            bot.send_message(message.chat.id, '<b>Виберіть потрібний день в меню внизу!👇</b>', parse_mode='HTML',reply_markup=kb_2)
+            auth(message, schedule_msg)
+    elif day == 'Вибрати групу ще раз'.lower():
+        bot.set_state(message.from_user.id, current_states.group_name)
+        bot.send_message(message.chat.id, "<b>Напишіть назву вашої групи через дефіс наприклад ре-31</b>",reply_markup=ReplyKeyboardRemove())
 
-            # if message.text == "Перший тиждень":
-            #     bot.send_message(message.chat.id, '<b>Виберіть потрібний день в меню внизу!👇</b>', parse_mode='HTML',reply_markup=kb_2)
-            #     n = 1
-            # elif message.text == "Другий тиждень":
-            #     bot.send_message(message.chat.id, '<b>Виберіть потрібний день в меню внизу!👇</b>',parse_mode='HTML',reply_markup=kb_2)
-            #     n = 0
-
-            auth(message, (sort_all_elements(get_html(url), 0)))
+    else:
+        bot.send_message(message.chat.id, f"Tакого дня немає")
 
 
 #перевірка на медіа файли
 @bot.message_handler(content_types=['photo', 'video', 'document', 'animation', 'sticker'])
 def media_error(message):
-    bot.send_message(message.chat.id, "<b>😡Не потрібно засмічувати цей чат😡</b>", parse_mode='HTML')
+    bot.send_message(message.chat.id, "<b>😡Не потрібно засмічувати цей чат😡</b>")
 
-
+bot.add_custom_filter(custom_filters.StateFilter(bot))
 bot.infinity_polling()
+
+

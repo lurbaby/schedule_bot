@@ -1,8 +1,5 @@
 from bs4 import BeautifulSoup
 import requests
-from direct_bot import url
-
-
 
 def get_html(url):
     response = requests.get(url)
@@ -121,5 +118,8 @@ def replace_wrong_sort_by_lessons(extacted_elements):
     return final_array
 
 
-week_1 = replace_wrong_sort_by_lessons(sort_all_elements(get_html(url), 1))
-week_2 = sort_all_elements(get_html(url), 0)
+week_1 = replace_wrong_sort_by_lessons(sort_all_elements(get_html('http://epi.kpi.ua/Schedules/ViewSchedule.aspx?g=6241332b-f071-47dc-86a4-a685a51f7e3c'), 1))
+# week_2 = sort_all_elements(get_html(url), 0)
+
+# print()
+# print()
