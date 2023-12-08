@@ -60,7 +60,7 @@ groups = {
               'рс-31мн':"http://epi.kpi.ua/Schedules/ViewSchedule.aspx?g=44ec3095-bc91-49ba-90de-8cc1c196ad19",
               'рі-31мп':"http://epi.kpi.ua/Schedules/ViewSchedule.aspx?g=05eb79d2-5480-401f-bdd7-8ef8a7162660",
 
-              }
+            }
 
 
 def auth(message, week):
